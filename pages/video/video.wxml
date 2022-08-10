@@ -1,0 +1,66 @@
+<view class="videoContainer">
+	<!-- 头部区域 -->
+	<view class="header">
+		<image src="/static/images/video/video.jpg"></image>
+		<view class="search" bindtap="toSearch">
+			搜索音乐
+		</view>
+		<image src="/static/images/logo.png"></image>
+	</view>
+
+	<!-- 导航区域 -->
+	<scroll-view scroll-with-animation scroll-into-view="{{'scroll'+navId}}" class="navScroll" scroll-x scroll-y='false' enable-flex>
+		<view id="{{'scroll'+item.id}}" class="navItem" wx:for="{{videoGroupList}}" wx:key="id">
+			<view class="navContent {{navId===item.id?'active':''}}" bindtap="changeNav" data-id="{{item.id}}">
+				{{item.name}}
+			</view>
+		</view>
+	</scroll-view>
+	<!-- 视频列表区域 -->
+	<scroll-view 
+	class="videoScroll" 
+	scroll-y scroll-x="false"
+	refresher-enabled
+	bindrefresherrefresh="handleRefresher"
+	refresher-triggered="{{isTriggered}}"
+	bindscrolltolower="handleToLower"
+	>
+		<view class="videoItem" wx:for="{{videoList}}" wx:key="id">
+			<video class="common" 
+			src="{{item.urls.url}}" 
+			poster="{{item.data.coverUrl}}" 
+			controls bindplay="handlePlay" 
+			id="{{item.data.vid}}" 
+			wx:if="{{videoId===item.data.vid}}"
+			autoplay
+			object-fit="cover"
+			bindtimeupdate="handleTimeUpdate"
+			bindended="handleEnded"
+			></video>
+			<!-- 性能优化：使用image图标代替video标签 -->
+			<image wx:else bindtap="handlePlay" id="{{item.data.vid}}" class="common" src="{{item.data.coverUrl}}"></image>
+			<!-- 视频标题 -->
+			<view class="content">{{item.data.title}}</view>
+			<!-- 视频作者 -->
+			<view class="footer">
+				<image class="avatar" controls src="{{item.data.creator.avatarUrl}}"></image>
+				<text class="nickname">{{item.data.creator.nickname}}</text>
+				<view class="comments_paraised">
+					<text class="item">
+						<text class="iconfont icon-buoumaotubiao15"></text>
+						<text class="count">{{item.data.praisedCount}}</text>
+					</text>
+					<text class="item">
+						<text class="iconfont icon-pinglun1"></text>
+						<text class="count">{{item.data.commentCount}}</text>
+					</text>
+					<button open-type="share" class="item btn">
+						<text class="iconfont icon-gengduo"></text>
+					</button>
+				</view>
+			</view>
+		</view>
+		<view wx:if="{{videoList.length==0}}">暂无推荐视频，请稍后再试！！！</view>
+	</scroll-view>
+
+</view>

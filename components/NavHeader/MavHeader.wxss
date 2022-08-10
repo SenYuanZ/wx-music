@@ -1,0 +1,19 @@
+/* components/NavHeader/MavHeader.wxss */
+
+.header{
+	padding-bottom: 20rpx;
+}
+
+.header .title{
+	font-size: 35rpx;
+	line-height: 80rpx;
+	color:#666;
+	font-weight: 600;
+}
+.header .more{
+	float: right;
+	padding: 10rpx;
+	border:1rpx solid #333;
+	border-radius: 25rpx;
+	font-size: 24rpx;
+}
